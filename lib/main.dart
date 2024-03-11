@@ -32,10 +32,9 @@ Future<List<News>> getNews() async {
   final response = await http.get(uri);
   logger.info('get news ${response.statusCode}');
 
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    Map<String, dynamic> result = json.decode(response.body);
-    List articles = result['articles'];
-    List<News> news = articles.map((e) => News.fromJson(e)).toList();
+  if (response.statusCode == 201 || response.statusCode == 200) {
+    List articles = json.decode(response.body)['articles'];
+    List<News> news = articles.map((x) => News.fromJson(x)).toList();
     return news;
   } else {
     return [];
@@ -52,7 +51,7 @@ class News {
     return News(
         json['title'] ?? '',
         json['description'] ?? '',
-        json['urlToImage'] ?? 'NoImage',
+        json['urlToImage'] ?? 'No Image',
         json['author'] ?? '',
         json['content'] ?? '',
         json['url'] ?? '');
